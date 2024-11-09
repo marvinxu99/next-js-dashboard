@@ -21,6 +21,28 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
+export const formatDateToLocal2 = (
+  dateStr: string,
+  locale: string = 'en-US',
+) => {
+  const date = new Date(dateStr);
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  };
+  const formatter = new Intl.DateTimeFormat(locale, options);
+
+  // Get formatted date parts
+  const parts = formatter.formatToParts(date);
+  const day = parts.find(part => part.type === 'day')?.value;
+  const month = parts.find(part => part.type === 'month')?.value;
+  const year = parts.find(part => part.type === 'year')?.value;
+
+  // Return formatted date in "06-Aug-2023" format
+  return `${day}-${month}-${year}`;
+};
+
 export const generateYAxis = (revenue: Revenue[]) => {
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s
